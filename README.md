@@ -1,15 +1,6 @@
 # nvimconfig
 
-My personal configuration of LazyVim and Lazy.nvim
-
-# lua
-
-Everything under this folder stores the plugin and related
+Billy Natsu's configuration of LazyVim and Lazy.nvim
 
 
-# Settings and Math
-$$
-a = 10
-$$
 
-# 
