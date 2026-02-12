@@ -3,6 +3,6 @@ return {
     { import = "plugins.lang.lang_cpp" },
     { import = "plugins.lang.lang_asm" },
     { import = "plugins.lang.lang_md" },
-    { import = "plugins.lang.lang_latex"},
-    { import = "plugins.lang.lang_python"},
+    { import = "plugins.lang.lang_latex" },
+    { import = "plugins.lang.lang_glsl" },
 }

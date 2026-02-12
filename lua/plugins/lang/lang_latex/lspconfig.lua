@@ -26,8 +26,8 @@ return {
                 forwardSearchAfter = false,
               },
               chktex = {
-                onOpenAndSave = false,
-                onEdit = false,
+                onOpenAndSave = true,
+                onEdit = true,
               },
               diagnosticsDelay = 300,
               formatterLineLength = 80,

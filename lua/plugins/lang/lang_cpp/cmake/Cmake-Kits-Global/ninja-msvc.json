@@ -1,0 +1,27 @@
+[
+    {
+        "name": "Visual Studio Community 2022 Release - amd64",
+        "isTrusted": true,
+        "generator": "Ninja",
+        "environmentSetupScript": "E:\\dev\\VisualStudioIDE\\VisualStudioApp\\VC\\Auxiliary\\Build\\vcvars64.bat",
+        "compilers": {
+            "C": "E:\\dev\\VisualStudioIDE\\VisualStudioApp\\VC\\Tools\\MSVC\\14.43.34808\\bin\\Hostx64\\x64\\cl.exe",
+            "C++": "E:\\dev\\VisualStudioIDE\\VisualStudioApp\\VC\\Tools\\MSVC\\14.43.34808\\bin\\Hostx64\\x64\\cl.exe"
+        }
+    },
+    {
+        "name": "Visual Studio Community 2022 Release - amd64_x86",
+        "isTrusted": true,
+        "generator": "Ninja"
+    },
+    {
+        "name": "Visual Studio Community 2022 Release - x86",
+        "isTrusted": true,
+        "generator": "Ninja"
+    },
+    {
+        "name": "Visual Studio Community 2022 Release - x86_amd64",
+        "isTrusted": true,
+        "generator": "Ninja"
+    }
+]

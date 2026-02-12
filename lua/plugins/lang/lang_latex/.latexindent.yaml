@@ -1,0 +1,43 @@
+# LaTeX indent configuration
+# This file customizes how latexindent formats your LaTeX files
+# Place this in your project root or home directory as .latexindent.yaml
+
+defaultIndent: "    " # 4 spaces (matching your editor settings)
+
+# Indentation settings
+indentRules:
+  environments: 1
+  commands: 1
+  optionalArguments: 1
+  mandatoryArguments: 1
+  items: 1
+
+# Line break settings
+modifyLineBreaks:
+  preserveBlankLines: 1
+  condenseMultipleBlankLinesInto: 1
+  textWrapOptions:
+    columns: 0 # 0 = don't wrap text (respect your editor's soft wrap)
+  oneSentencePerLine:
+    manipulateSentences: 0 # Don't force one sentence per line
+
+# Alignment settings
+lookForAlignDelims:
+  tabular: 1
+  align: 1
+  array: 1
+  cases: 1
+
+# Remove trailing whitespace
+removeTrailingWhitespace:
+  beforeProcessing: 0
+  afterProcessing: 1
+
+# Other settings
+specialBeginEnd:
+  displayMath:
+    begin: '\\\['
+    end: '\\\]'
+  inlineMath:
+    begin: '\$'
+    end: '\$'

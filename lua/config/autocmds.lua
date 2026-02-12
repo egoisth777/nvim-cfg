@@ -8,5 +8,10 @@
 -- Auto-Saving for NVIM
 require("config.autocmds.autosaving")
 
--- Fix fzf-lua colors for CyberDream
-require("config.autocmds.fzf-lua-colors")
+
+-- Auto applying color schemes for some plugins that are not working
+require("config.autocmds.auto-snacks-colors") -- Snacks
+require("config.autocmds.fzf-lua-colors")     -- fzf
+
+-- Auto-format LaTeX files on save
+require("config.autocmds.auto-format-latex")

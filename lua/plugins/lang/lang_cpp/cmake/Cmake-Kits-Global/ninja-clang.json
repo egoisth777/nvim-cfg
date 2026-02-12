@@ -1,0 +1,11 @@
+[
+    {
+        "name": "Ninja + Clang 21.02 - amd64",
+        "isTrusted": true,
+        "generator": "Ninja",
+        "compilers": {
+            "C": "C:\\Program Files\\LLVM\\bin\\clang.exe",
+            "C++": "C:\\Program Files\\LLVM\\bin\\clang++.exe"
+        }
+    }
+]

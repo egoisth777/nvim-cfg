@@ -1,8 +1,13 @@
+-- [[
+-- latex-live-preview
+-- Knap
+-- ]]
 return {
   -- PDF preview for LaTeX
   {
     "xuhdev/vim-latex-live-preview",
-    ft = { "tex", "plaintex" },
+    -- what file types will trigger the plugin
+    ft = { "tex", "plaintex", "bibtex"},
     config = function()
       -- Set the PDF viewer (change this based on your OS)
       if vim.fn.has("win32") == 1 then
