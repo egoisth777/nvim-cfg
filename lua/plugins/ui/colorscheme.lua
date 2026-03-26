@@ -136,7 +136,19 @@ return
             })
         end,
     },
+    {
+  "ilof2/posterpole.nvim",
+  priority=1000,
+  config = function ()
+    local posterpole = require("posterpole")
 
+    posterpole.setup({
+      -- config here
+    })
+    vim.cmd("colorscheme posterpole")
+    
+  end
+},
     {
         -- Install Kanagawa.nvim
         "rebelot/kanagawa.nvim",
