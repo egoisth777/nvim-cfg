@@ -5,4 +5,5 @@ return {
     { import = "plugins.lang.lang_md" },
     { import = "plugins.lang.lang_latex" },
     { import = "plugins.lang.lang_glsl" },
+    { import = "plugins.lang.lang_powershell" },
 }
