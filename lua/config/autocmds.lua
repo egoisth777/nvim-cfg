@@ -9,9 +9,5 @@
 require("config.autocmds.autosaving")
 
 
--- Auto applying color schemes for some plugins that are not working
-require("config.autocmds.auto-snacks-colors") -- Snacks
-require("config.autocmds.fzf-lua-colors")     -- fzf
-
 -- Auto-format LaTeX files on save
 require("config.autocmds.auto-format-latex")

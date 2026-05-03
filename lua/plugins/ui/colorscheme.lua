@@ -6,22 +6,22 @@
     4. kanagawa
     3. cyberdream
     5. nightfox
+    6. miasma
+    7. melange
 --]]
 -- END- - - - - - - - - - - - - - - - - - - - - -
 
-return
-{
+return {
     -- Catppuccin configuration
     {
         "catppuccin/nvim",
         name = "catppuccin",
-        opts =
-        {
+        opts = {
             flavour = "mocha",
             transparent_background = true, -- Enables full transparency for backgrounds
         },
     },
-    
+
     -- abyss colorscheme
     {
         "barrientosvctor/abyss.nvim",
@@ -49,15 +49,16 @@ return
         lazy = false,
         priority = 2000,
         config = function()
+            vim.o.background = "light"
             require("cyberdream").setup({
-                variant = "auto",
+                variant = "light",
                 transparent = true,
                 italic_comments = true,
-                borderless_telescope = true, -- This affects fzf-lua too
-                borderless_pickers = true, -- 
+                borderless_telescope = true,
+                borderless_pickers = true, --
                 terminal_colors = true,
                 hide_fillchars = true,
-                cache = false,
+                cache = true,
                 -- Add theme customizations for specific syntax elements
                 highlights = {
                     -- Settings for snacks.nvim
@@ -65,7 +66,7 @@ return
                     SnacksPickerNormal = { bg = "NONE" },
                     SnacksPickerBorder = { bg = "NONE" },
                     SnacksPickerTitle = { bg = "NONE" },
-                    
+
                     -- Optional: specific parts of the layout
                     SnacksPickerList = { bg = "NONE" },
                     SnacksPickerInput = { bg = "NONE" },
@@ -74,18 +75,17 @@ return
         end,
     },
     {
-  "ilof2/posterpole.nvim",
-  priority=1000,
-  config = function ()
-    local posterpole = require("posterpole")
+        "ilof2/posterpole.nvim",
+        priority = 1000,
+        config = function()
+            local posterpole = require("posterpole")
 
-    posterpole.setup({
-      -- config here
-    })
-    vim.cmd("colorscheme posterpole")
-    
-  end
-},
+            posterpole.setup({
+                -- config here
+            })
+            vim.cmd("colorscheme posterpole")
+        end,
+    },
     {
         -- Install Kanagawa.nvim
         "rebelot/kanagawa.nvim",
@@ -93,20 +93,28 @@ return
         opts = {
             transparent = true,
         },
-
     },
     {
         "EdenEast/nightfox.nvim",
         opts = {
             transparent = true,
-        }
-
+        },
+    },
+    {
+        "xero/miasma.nvim",
+        lazy = true,
+    },
+    {
+        "savq/melange-nvim",
+        name = "melange",
+        lazy = false,
+        priority = 1000,
     },
     -- LazyVim core configuration
     {
         "LazyVim/LazyVim",
         opts = {
-            colorscheme = "cyberdream",
+            colorscheme = "melange",
         },
     },
 }
