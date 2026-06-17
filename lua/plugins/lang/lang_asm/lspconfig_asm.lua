@@ -1,67 +1,47 @@
 return {
 
-  -- ensure install the asm-lsp language server
-  {
-    "mason-org/mason.nvim",
-    opts = {
-      ensure_installed = {
-        "asm-lsp",
-      },
-    },
-    },
-  -- mason-lsp-config
-  {
-    "mason-org/mason-lspconfig.nvim",
-    opts = {},
-  },
-
-  -- Configure asm-lsp server
-  {
-    "neovim/nvim-lspconfig",
-    opts = {
-      servers = {
-        asm_lsp = {
-          cmd = { "asm-lsp" },
-          filetypes = { "asm", "s", "S", "masm" },
-          root_dir = function(fname)
-            return require("lspconfig.util").find_git_ancestor(fname) or vim.fn.getcwd()
-          end,
-          settings = {
-            ["asm-lsp"] = {
-              -- Enable diagnostics
-              diagnostics = true,
-              -- Set assembler to support MASM syntax
-              assembler = "masm",
-              -- Set instruction set for x86/x86-64
-              instruction_set = "x86/x86-64",
-              -- Enable hover documentation for opcodes
-              hover = {
-                enable = true,
-                show_instruction_docs = true,
-              },
+    -- ensure install the asm-lsp language server
+    {
+        "mason-org/mason.nvim",
+        opts = {
+            ensure_installed = {
+                "asm-lsp",
             },
-          },
-          on_attach = function(client, bufnr)
-            -- Enable hover on 'K' key
-            vim.keymap.set('n', 'K', vim.lsp.buf.hover, 
-              { buffer = bufnr, desc = "Show opcode documentation" })
-            
-            -- Additional keymaps for LSP features
-            vim.keymap.set('n', 'gd', vim.lsp.buf.definition, 
-              { buffer = bufnr, desc = "Go to definition" })
-            vim.keymap.set('n', 'gr', vim.lsp.buf.references, 
-              { buffer = bufnr, desc = "Find references" })
-            vim.keymap.set('n', '<leader>ca', vim.lsp.buf.code_action, 
-              { buffer = bufnr, desc = "Code actions" })
-            
-            -- Enable signature help
-            if client.server_capabilities.signatureHelpProvider then
-              vim.keymap.set('i', '<C-k>', vim.lsp.buf.signature_help, 
-                { buffer = bufnr, desc = "Signature help" })
-            end
-          end,
         },
-      },
     },
-  },
+    -- Configure asm-lsp server
+    {
+        "neovim/nvim-lspconfig",
+        opts = {
+            servers = {
+                asm_lsp = {
+                    cmd = { "asm-lsp" },
+                    -- These are the only two filetypes ftdetect.lua produces for
+                    -- assembly. The list must cover them exactly, because the
+                    -- server attaches by filetype match -- a buffer whose
+                    -- filetype is absent here gets no completion or hover.
+                    filetypes = { "masm", "nasm" },
+                    -- Neovim 0.11's native vim.lsp.config (which LazyVim now
+                    -- drives) calls root_dir as (bufnr, on_dir) and ignores the
+                    -- return value -- the resolved root must be handed back by
+                    -- invoking on_dir. The older `root_dir(fname) -> path` form
+                    -- silently no-ops and the server falls back to single-file
+                    -- mode, breaking project-wide definition/reference lookups.
+                    root_dir = function(bufnr, on_dir)
+                        local fname = vim.api.nvim_buf_get_name(bufnr)
+                        on_dir(vim.fs.root(fname, ".git") or vim.fn.getcwd())
+                    end,
+                    -- asm-lsp does NOT read LSP `settings`. Assembler /
+                    -- instruction_set / diagnostics live in the global TOML at
+                    -- %APPDATA%\asm-lsp\.asm-lsp.toml (or a per-project
+                    -- .asm-lsp.toml). Do not re-add a `settings` block here.
+                    --
+                    -- No on_attach keymaps: LazyVim already binds K/gd/gr/
+                    -- <leader>ca with capability guards, and glance.nvim
+                    -- (peek_glance.lua) supplies the peek variants. Re-binding
+                    -- them here would only shadow the guarded defaults.
+                },
+            },
+        },
+    },
 }

@@ -1,11 +1,14 @@
 -- Assembly related (MASM, NASM, GAS)
+-- .asm/.s/.S/.masm/.inc -> masm  (uses Nvim's builtin masm.vim syntax)
+-- .nasm                 -> nasm  (treesitter nasm parser)
 vim.filetype.add({
   extension = {
-    asm = "nasm",
-    s = "nasm",
-    S = "nasm",
-    masm = "nasm", -- MASM specific
-    inc = "nasm",  -- MASM include files
+    asm = "masm",
+    s = "masm",
+    S = "masm",
+    masm = "masm",
+    inc = "masm", -- MASM include files
+    nasm = "nasm",
   },
 })
 
