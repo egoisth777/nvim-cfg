@@ -48,7 +48,7 @@ nvim-cfg/
 │   │       ├── lang_cpp/       # C/C++ + CMake
 │   │       ├── lang_asm/       # Assembly (MASM/NASM)
 │   │       ├── lang_latex/     # LaTeX (full stack)
-│   │       ├── lang_md/        # Markdown + Obsidian
+│   │       ├── lang_md/        # Markdown
 │   │       ├── lang_glsl/      # GLSL shaders
 │   │       └── lang_powershell/# PowerShell
 │   └── utility/

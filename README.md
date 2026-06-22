@@ -33,7 +33,7 @@ Personal Neovim setup built on [LazyVim](https://www.lazyvim.org/) with [lazy.nv
 | PowerShell | PSES via powershell.nvim | built-in (PSES) | PSScriptAnalyzer (PSES) | Treesitter highlighting |
 | Assembly | asm-lsp | — | — | MASM/NASM/GAS, x86/x86-64 |
 | GLSL | glsl_analyzer | — | — | Shader filetypes (.vert, .frag, etc.) |
-| Markdown | (LazyVim extra) | prettier | — | obsidian.nvim vault integration |
+| Markdown | (LazyVim extra) | prettier | — | — |
 | TypeScript | biome (LazyVim extra) | prettier, biome | biome | — |
 | Python | (LazyVim default) | black | — | — |
 | JSON/YAML/TOML | (LazyVim extras) | prettier | — | SchemaStore |
