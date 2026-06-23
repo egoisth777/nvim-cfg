@@ -171,7 +171,6 @@ Full-stack LaTeX toolchain with LSP, formatting, linting, snippets, and PDF prev
 
 | File | Plugin / Tool | Purpose |
 |------|--------------|---------|
-| `obsidian_nvim.lua` | `obsidian-nvim/obsidian.nvim` | Obsidian vault integration. Workspaces from `$OBS_KNOWLEDGE_BASE` and `$OBS_META_BASE` env vars. UI disabled. |
 | `linting.lua` | `mfussenegger/nvim-lint` | Disables markdown linting (empty linter list). |
 
 ---
