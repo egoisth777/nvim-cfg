@@ -52,7 +52,8 @@ nvim-cfg/
 │   │       ├── lang_glsl/      # GLSL shaders
 │   │       └── lang_powershell/# PowerShell
 │   └── utility/
-│       └── auto_import.lua     # Glob-based module loader
+│       ├── auto_import.lua     # Glob-based module loader
+│       └── latex_preview.lua   # In-terminal PDF viewer (snacks.image + synctex)
 ```
 
 ### Plugin loading pattern
@@ -70,7 +71,9 @@ Plugin directories use one of two patterns for their `init.lua`:
 - **Completion**: `blink.cmp` with LuaSnip backend. Sources: `lsp`, `snippets`, `buffer`, `path`.
 - **Folding**: `nvim-ufo` with LSP → treesitter → indent fallback chain.
 - **PowerShell LSP**: Uses `powershell.nvim` plugin (not raw `nvim-lspconfig`) because PSES requires a non-standard `bundle_path` startup that LazyVim's `vim.lsp.config`/`vim.lsp.enable` flow cannot handle.
-- **LaTeX**: Full toolchain — vimtex + texlab LSP + latexindent + chktex + LuaSnip snippets + PDF preview (SumatraPDF on Windows).
+- **LaTeX**: Full toolchain — vimtex + texlab LSP + latexindent + chktex + LuaSnip snippets + in-terminal PDF preview.
+- **LaTeX PDF preview**: rendered inside Neovim via `snacks.image` (kitty graphics protocol), not an external app; vimtex's viewer is disabled (`vimtex_view_enabled = 0`). Logic lives in `lua/utility/latex_preview.lua`; `lang_latex/pdf_preview.lua` enables `snacks.image` (PDF pages rendered untrimmed so click coordinates map linearly) and binds keys; `config/autocmds/latex_preview.lua` wires events (a second `init` on the vimtex spec would clobber vimtex's own — lazy.nvim keeps only one). Sync: file watcher on the compiled PDF (any compiler); tex→pdf via `synctex view` on demand and in follow mode (debounced `CursorMoved`, never `CursorHold` — `updatetime` is 30 s here); pdf→tex via ctrl+click → cell→PDF-point mapping → `synctex edit`. Status lives in a 1-row split under the image, not a winbar: WezTerm has no unicode placeholders, so snacks paints the image from the window's top-left cell. Each refresh copies the PDF to a per-pid, per-generation file in the snacks image cache because snacks caches conversions by source path; close aborts in-flight `magick` and purges. Requires a kitty-graphics terminal (WezTerm/kitty/ghostty), `magick`, `gs`; optional `pdfinfo` (page count/size), `synctex` (forward/inverse/follow).
+- **vimtex on Neovim 0.11**: vimtex ≥ 2026-07-22 refuses Neovim < 0.12.4 (`ftplugin/tex.vim` guard) and this machine runs 0.11.6, so `b:vimtex` never existed. `latex_features.lua` sets `vim.g.vimtex_version_check = 0` (vimtex-documented override) in `init`. Remove after upgrading Neovim.
 
 ## LazyVim Extras
 

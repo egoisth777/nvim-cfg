@@ -4,13 +4,20 @@ return {
     "lervag/vimtex",
     ft = { "tex", "plaintex", "bib" },
     lazy = false, -- Load immediately to ensure commands are available
+    init = function()
+      -- Root cause: vimtex (since 2026-07-22) refuses to load on Neovim < 0.12.4
+      -- and this machine runs 0.11.6, so nothing under b:vimtex exists without
+      -- this. vimtex documents the override (:h vimtex_version_check).
+      -- Remove once Neovim is upgraded to >= 0.12.4.
+      vim.g.vimtex_version_check = 0
+    end,
     config = function()
       -- VimTeX configuration
       vim.g.vimtex_mappings_disable = { ["n"] = { "K" } } -- disable `K` as it conflicts with LSP hover
       vim.g.vimtex_quickfix_method = vim.fn.executable("pplatex") == 1 and "pplatex" or "latexlog"
 
-      -- Configure callback for inverse search
-      vim.g.vimtex_view_enabled = 1
+      -- PDF viewing is in-terminal (pdf_preview.lua); no external viewer.
+      vim.g.vimtex_view_enabled = 0
       vim.g.vimtex_view_automatic = 0
 
       -- Disable some default mappings
@@ -34,7 +41,6 @@ return {
     keys = {
       { "<leader>lc", "<cmd>VimtexCompile<cr>",   desc = "Compile LaTeX (continuous)" },
       { "<leader>lC", "<cmd>VimtexCompileSS<cr>", desc = "Compile LaTeX (single shot)" },
-      { "<leader>lv", "<cmd>VimtexView<cr>",      desc = "View PDF" },
       { "<leader>lt", "<cmd>VimtexTocToggle<cr>", desc = "Toggle TOC" },
       { "<leader>lq", "<cmd>VimtexErrors<cr>",    desc = "Show errors" },
       { "<leader>ls", "<cmd>VimtexStop<cr>",      desc = "Stop compilation" },

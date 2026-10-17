@@ -45,7 +45,6 @@ return {
           keys = {
             { "<Leader>K",  "<plug>(vimtex-doc-package)", desc = "Vimtex Docs",   silent = true },
             { "<leader>lb", "<cmd>TexlabBuild<CR>",       desc = "Build LaTeX" },
-            { "<leader>lf", "<cmd>TexlabForward<CR>",     desc = "Forward search" },
           },
         },
       },

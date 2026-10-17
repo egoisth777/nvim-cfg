@@ -1,65 +1,40 @@
--- [[
--- latex-live-preview
--- Knap
--- ]]
+-- In-terminal PDF preview for LaTeX.
+-- Logic: lua/utility/latex_preview.lua. This file only enables snacks.image
+-- and binds keys. Follow-mode / ctrl+click autocmds: config/autocmds/latex_preview.lua
+-- (a plugin `init` here would clobber vimtex's own `init`; lazy.nvim keeps one).
+--
+-- Requires a terminal with the kitty graphics protocol (WezTerm, kitty,
+-- ghostty), plus `magick` and `gs`. Optional: `pdfinfo`, `synctex`.
+local function preview()
+  return require("utility.latex_preview")
+end
+
 return {
-  -- PDF preview for LaTeX
   {
-    "xuhdev/vim-latex-live-preview",
-    -- what file types will trigger the plugin
-    ft = { "tex", "plaintex", "bibtex"},
-    config = function()
-      -- Set the PDF viewer (change this based on your OS)
-      if vim.fn.has("win32") == 1 then
-        vim.g.livepreview_previewer = "SumatraPDF"
-      elseif vim.fn.has("mac") == 1 then
-        vim.g.livepreview_previewer = "open -a Preview"
-      else
-        vim.g.livepreview_previewer = "zathura"
-      end
-      
-      -- Optional: Set custom compilation command
-      vim.g.livepreview_engine = "pdflatex"
-      
-      -- Optional: Update time in milliseconds
-      vim.g.livepreview_cursorhold_recompile = 0
-    end,
-    keys = {
-      { "<leader>lp", "<cmd>LLPStartPreview<cr>", desc = "Start LaTeX preview" },
+    "folke/snacks.nvim",
+    opts = {
+      image = {
+        enabled = true,
+        convert = {
+          magick = {
+            -- snacks' default adds `-trim`, which crops page margins and would
+            -- break the click -> PDF-point mapping used by inverse search.
+            pdf = { "-density", 192, "{src}[{page}]", "-background", "white", "-alpha", "remove" },
+          },
+        },
+      },
     },
   },
-  
-  -- Alternative: knap for more features
+
+  -- Keys hang off vimtex so they exist exactly when LaTeX does (keys merge across fragments).
   {
-    "frabjous/knap",
-    ft = { "tex", "plaintex" },
-    config = function()
-      local knap = require("knap")
-      
-      -- Configure for Windows
-      if vim.fn.has("win32") == 1 then
-        vim.g.knap_settings = {
-          texoutputext = "pdf",
-          textopdf = "pdflatex -interaction=nonstopmode -synctex=1 %docroot%",
-          textopdfviewerlaunch = "SumatraPDF %outputfile%",
-          textopdfviewerrefresh = "none",
-          textopdfforwardjump = "SumatraPDF -reuse-instance %outputfile% -forward-search %srcfile% %line%"
-        }
-      else
-        -- Default settings for Linux/Mac
-        vim.g.knap_settings = {
-          texoutputext = "pdf",
-          textopdf = "pdflatex -interaction=nonstopmode -synctex=1 %docroot%",
-          textopdfviewerlaunch = "zathura --synctex-editor-command 'nvim --headless -es --cmd \"lua require('\"'\"'knap'\"'\"').jump_from_viewer('%{input}', %{line})\"' %outputfile%",
-          textopdfviewerrefresh = "none",
-        }
-      end
-    end,
+    "lervag/vimtex",
     keys = {
-      { "<F5>", function() require("knap").process_once() end, desc = "Compile LaTeX" },
-      { "<F6>", function() require("knap").close_viewer() end, desc = "Close PDF viewer" },
-      { "<F7>", function() require("knap").toggle_autopreviewing() end, desc = "Toggle auto preview" },
-      { "<F8>", function() require("knap").forward_jump() end, desc = "Forward jump to PDF" },
+      { "<leader>lv", function() preview().forward() end,       desc = "View PDF (in terminal, at cursor)" },
+      { "<leader>lp", function() preview().toggle() end,        desc = "Toggle PDF preview (in terminal)" },
+      { "<leader>lf", function() preview().forward() end,       desc = "Forward search (preview page)" },
+      { "<leader>lF", function() preview().toggle_follow() end, desc = "Toggle preview follow mode" },
+      { "<leader>lr", function() preview().refresh(true) end,   desc = "Refresh PDF preview" },
     },
   },
 }

@@ -156,11 +156,11 @@ Full-stack LaTeX toolchain with LSP, formatting, linting, snippets, and PDF prev
 
 | File | Plugin / Tool | Purpose |
 |------|--------------|---------|
-| `lspconfig.lua` | `neovim/nvim-lspconfig`, `mason.nvim` | `texlab` LSP. Build: latexmk → PDF. Formatter: latexindent. chktex diagnostics on open/save/edit. Keys: `<leader>lb` build, `<leader>lf` forward search. |
-| `latex_features.lua` | `lervag/vimtex` | VimTeX integration. Folds enabled. Keys: `<leader>lc` compile, `<leader>lv` view PDF, `<leader>lt` TOC. Also configures treesitter (latex, bibtex), `latex-unicoder.vim` (`<C-l>` in insert), and nvim-autopairs rules for `$...$`, `\[...\]`, `\(...\)`. |
+| `lspconfig.lua` | `neovim/nvim-lspconfig`, `mason.nvim` | `texlab` LSP. Build: latexmk → PDF. Formatter: latexindent. chktex diagnostics on open/save/edit. Keys: `<leader>lb` build. |
+| `latex_features.lua` | `lervag/vimtex` | VimTeX integration. Folds enabled. External viewer disabled (`vimtex_view_enabled = 0`; viewing is in-terminal via `pdf_preview.lua`). `vimtex_version_check = 0` in `init` because vimtex refuses Neovim < 0.12.4 and this machine runs 0.11.6. Keys: `<leader>lc` compile (continuous), `<leader>lC` single shot, `<leader>lt` TOC, `<leader>lq` errors, `<leader>ls` stop, `<leader>lk` clean. Also configures treesitter (latex, bibtex), `latex-unicoder.vim` (`<C-l>` in insert), and nvim-autopairs rules for `$...$`, `\[...\]`, `\(...\)`. |
 | `latex_formatting.lua` | `stevearc/conform.nvim`, `mfussenegger/nvim-lint` | Formatting via latexindent (config: `.latexindent.yaml`). Linting via chktex. |
 | `luasnip.lua` | `L3MON4D3/LuaSnip` | Custom LaTeX snippets loaded from `Snippets/tex/`. Keys: `<C-k>` expand, `<C-j>` backward, `<C-l>` choice. |
-| `pdf_preview.lua` | `xuhdev/vim-latex-live-preview`, `frabjous/knap` | Dual PDF preview options. Viewer: SumatraPDF (Windows) / zathura (Linux). Keys: `<leader>lp` live preview, `<F5>`–`<F8>` knap controls. |
+| `pdf_preview.lua` | `folke/snacks.nvim` (image), `lua/utility/latex_preview.lua` | In-terminal PDF preview: image split on the right + 1-row status split under it. Auto-refreshes when the compiled PDF changes on disk (works with `<leader>lc` vimtex continuous build, `<leader>lb` texlab, or any external build). Follow mode: after the cursor rests on a new line (debounced `CursorMoved`), `synctex view` maps it to a page and the preview jumps there. Ctrl+click: in tex → preview jumps to that spot's page; on the preview → cursor jumps to the matching tex file:line (`synctex edit`). Keys (tex buffer): `<leader>lv` view at cursor, `<leader>lp` toggle, `<leader>lf` forward search, `<leader>lF` toggle follow, `<leader>lr` refresh. Keys (preview): `j`/`k` next/prev page, `gg`/`G` first/last, `r` refresh, `q` close. Event wiring: `config/autocmds/latex_preview.lua`. Requires: terminal with kitty graphics protocol (WezTerm, kitty, ghostty), `magick`, `gs`. Optional: `pdfinfo` (page count/size), `synctex` (forward/inverse/follow). |
 | `.latexindent.yaml` | — | latexindent formatter config (co-located). |
 
 ---
@@ -244,6 +244,7 @@ Enabled in `lazyvim.json`. These are pre-configured plugin bundles from the Lazy
 | `auto-snacks-colors.lua` | CyberDream-specific color fixes for Snacks notifications, dashboard, backdrops. |
 | `fzf-lua-colors.lua` | CyberDream-specific highlight links for fzf-lua. Reapplied on `ColorScheme` event. |
 | `auto-format-latex.lua` | Auto-format `.tex` and `.bib` on save via conform.nvim (10s timeout). |
+| `latex_preview.lua` | In-terminal PDF preview events: `CursorMoved`/`CursorMovedI` on `*.tex` → follow mode (debounced in the module; `CursorHold` is unusable with 30s updatetime); `FileType tex` → buffer-local `<C-LeftMouse>` for two-way SyncTeX jumps. Logic: `lua/utility/latex_preview.lua`. |
 
 ---
 

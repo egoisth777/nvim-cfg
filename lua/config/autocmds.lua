@@ -11,3 +11,6 @@ require("config.autocmds.autosaving")
 
 -- Auto-format LaTeX files on save
 require("config.autocmds.auto-format-latex")
+
+-- In-terminal LaTeX PDF preview: follow mode + ctrl+click sync
+require("config.autocmds.latex_preview")
